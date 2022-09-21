@@ -54,4 +54,4 @@ jobs:
           app-name: 'CollabCanvas-Api'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4DBBE8ADF38B49AEB36ACE6B166F1122 }}
-          package: .
+          package: ./App
