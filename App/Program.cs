@@ -9,6 +9,8 @@ app.MapGet("/bla", testando);
 
 string testando() { return "Hello World";}
 
+app.MapGet("/paint", () => " ");
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
