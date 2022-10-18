@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using Mosaic.Model;
 
+namespace Mosaic.Tests;
 public class MosaicTests
 {
     [Fact]

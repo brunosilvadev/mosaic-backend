@@ -1,9 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IEndpoint, MosaicEndpoint>();
+builder.Services.AddSingleton<Mosaic.Persistence.ITemporaryDbProvider, Mosaic.Persistence.TemporaryDbProvider>();
+
 
 var app = builder.Build();
 
+var endpoints = app.Services.GetServices<IEndpoint>().ToList();
+
+endpoints.ForEach(e => e.RegisterRoutes(app));
 
 app.MapGet("/bla", testando);
 
