@@ -4,7 +4,7 @@ namespace Mosaic.Workers;
 
 public class Brush
 {
-    public void PaintPixel(Pixel pixel)
+    public async Task PaintPixel(Pixel pixel)
     {
         string a = "x";
         a += "y";

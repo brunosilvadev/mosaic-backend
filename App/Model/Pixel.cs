@@ -1,7 +1,7 @@
 namespace Mosaic.Model;
 public record Pixel
 {
-    public int x { get; set; }
-    public int y { get; set; }
-    public string hexColor { get;set; } = default!;
+    public int X { get; set; }
+    public int Y { get; set; }
+    public string HexColor { get; set; } = default!;
 }

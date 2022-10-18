@@ -1,8 +1,13 @@
 using Mosaic.Model;
 
-namespace Mosaic.Endpoints;
-
-public class MosaicEndpoint
+public class MosaicEndpoint : IEndpoint
 {
-
+    public void RegisterRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapGet("/see", SeeCanvas);        
+    }
+    public async Task<Canvas> SeeCanvas()
+    {
+        return new Canvas();
+    }
 }
