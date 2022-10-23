@@ -14,9 +14,15 @@ public class TemporaryDbProvider : ITemporaryDbProvider
     {
         return _canvas;
     }
+    public void AddPixel(Pixel pixel)
+    {
+        _canvas.Pixels.Append(pixel);
+    }
+
 }
 
 public interface ITemporaryDbProvider
 {
     public Canvas GetCanvas();
+    public void AddPixel(Pixel pixel);
 }
