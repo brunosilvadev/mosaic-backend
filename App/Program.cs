@@ -11,12 +11,6 @@ var endpoints = app.Services.GetServices<IEndpoint>().ToList();
 
 endpoints.ForEach(e => e.RegisterRoutes(app));
 
-app.MapGet("/bla", testando);
-
-string testando() { return "Hello World";}
-
-app.MapGet("/paint", () => " ");
-
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {

@@ -3,5 +3,5 @@ namespace Mosaic.Model;
 public record Canvas
 {
     public Canvas() {Pixels = new List<Pixel>();}
-    public IEnumerable<Pixel> Pixels {get;set;}
+    public List<Pixel> Pixels {get;set;}
 }
