@@ -16,7 +16,7 @@ public class TemporaryDbProvider : ITemporaryDbProvider
     }
     public void AddPixel(Pixel pixel)
     {
-        _canvas.Pixels.Append(pixel);
+        _canvas.Pixels.Add(pixel);
     }
 
 }
