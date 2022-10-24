@@ -10,10 +10,16 @@ public class MosaicEndpoint : IEndpoint
     }
     public void RegisterRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/see", SeeCanvas);        
+        app.MapGet("/see", SeeCanvas);
+        app.MapPost("/paint", PaintPixel);
+    }
+    public void PaintPixel(Pixel pixel)
+    {
+       _dbProvider.AddPixel(pixel);
     }
     public Canvas SeeCanvas()
     {
         return _dbProvider.GetCanvas();
     }
+
 }
