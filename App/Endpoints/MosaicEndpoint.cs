@@ -1,12 +1,14 @@
 using Mosaic.Model;
-using Mosaic.Persistence;
+using Mosaic.Workers;
 
 public class MosaicEndpoint : IEndpoint
 {
-    private ITemporaryDbProvider _dbProvider;
-    public MosaicEndpoint(ITemporaryDbProvider provider)
+    private IBrush _brush;
+    private IEye _eye;
+    public MosaicEndpoint(IBrush brush, IEye eye)
     {
-        _dbProvider = provider;
+        _brush = brush;
+        _eye = eye;
     }
     public void RegisterRoutes(IEndpointRouteBuilder app)
     {
@@ -15,11 +17,11 @@ public class MosaicEndpoint : IEndpoint
     }
     public void PaintPixel(Pixel pixel)
     {
-       _dbProvider.AddPixel(pixel);
+       _brush.PaintPixel(pixel);
     }
     public Canvas SeeCanvas()
     {
-        return _dbProvider.GetCanvas();
+        return _eye.SeeCanvas();
     }
 
 }
