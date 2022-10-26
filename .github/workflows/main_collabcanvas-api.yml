@@ -16,6 +16,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Find and Replace1
+        uses: jacobtomlinson/gha-find-replace@2.0.0
+        with:
+          find: "AAAAA"
+          replace: ${{ secrets.COSMO_URI }}
+          regex: false
+          
+      - name: Find and Replace2
+        uses: jacobtomlinson/gha-find-replace@2.0.0
+        with:
+          find: "BBBBB"
+          replace: ${{ secrets.COSMO_KEY }}
+          regex: false
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
