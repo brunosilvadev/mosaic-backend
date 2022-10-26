@@ -17,8 +17,8 @@ public class MosaicTests
     {
         var inMemorySettings = new Dictionary<string, string>
         {
-            {"EndpointUri",@"AAA" },
-            {"PrimaryKey",@"BBB"}
+            {"EndpointUri",@"AAAAA" },
+            {"PrimaryKey",@"BBBBB"}
         };
         IConfiguration config = new ConfigurationBuilder().AddInMemoryCollection(inMemorySettings).Build();                    
         var c = new CosmosProvider(config);
