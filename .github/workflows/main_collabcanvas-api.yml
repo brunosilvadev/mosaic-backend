@@ -20,13 +20,13 @@ jobs:
         uses: datamonsters/replace-action@v2
         with:
           files: 'App/appsettings.json'
-          replacements: 'AAAAA,${{ secrets.COSMO_URI }}'
+          replacements: 'AAAAA=${{ secrets.COSMO_URI }}'
 
       - name: Replace Action2
         uses: datamonsters/replace-action@v2
         with:
           files: 'App/appsettings.json'
-          replacements: 'BBBBB,${{ secrets.COSMO_KEY }}'
+          replacements: 'BBBBB=${{ secrets.COSMO_KEY }}'
               
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
