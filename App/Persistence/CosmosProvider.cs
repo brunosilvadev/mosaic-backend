@@ -29,6 +29,31 @@ public class CosmosProvider
     {
         return await _container.CreateItemAsync<Pixel>(pixel, new PartitionKey(pixel.partitionKey));
     }
+
+    public async Task<List<Pixel>> SelectCanvas(string partitionKey)
+    {
+        var returnList = new List<Pixel>();
+        var parameterizedQuery = new QueryDefinition(
+            query: "SELECT * FROM Items p WHERE p.partitionKey = @partitionKey"
+        )
+            .WithParameter("@partitionKey", partitionKey);
+
+        using FeedIterator<Pixel> filteredFeed = _container.GetItemQueryIterator<Pixel>(
+            queryDefinition: parameterizedQuery
+        );
+
+        while (filteredFeed.HasMoreResults)
+        {
+            FeedResponse<Pixel> response = await filteredFeed.ReadNextAsync();
+
+            foreach (Pixel item in response)
+            {
+                returnList.Add(item);
+            }
+        }
+
+        return returnList;
+    }
     public bool ConfigsWereRead()
     {
         return (_uri != null && _key != null);

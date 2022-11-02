@@ -27,6 +27,11 @@ public class MosaicEndpoint : IEndpoint
         var p = new Mosaic.Persistence.CosmosProvider(_config);
         await p.PaintPixel(pixel);
     }
+    public async Task<List<Pixel>> SeePixel(string k)
+    {
+        var p = new Mosaic.Persistence.CosmosProvider(_config);
+        return await p.SelectCanvas(k);
+    }
     public Canvas SeeCanvas()
     {
         return _eye.SeeCanvas();
