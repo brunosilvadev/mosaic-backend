@@ -17,6 +17,7 @@ public class MosaicEndpoint : IEndpoint
         app.MapGet("/see", SeeCanvas);
         app.MapPost("/paint", PaintPixel);
         app.MapPost("/cosmopaint", CosmoPaint);
+        app.MapGet("/select", SeePixel);
     }
     public void PaintPixel(Pixel pixel)
     {
