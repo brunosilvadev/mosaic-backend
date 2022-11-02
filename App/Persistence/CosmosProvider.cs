@@ -42,7 +42,11 @@ public class CosmosProvider
     {
         var returnList = new List<Pixel>();
         var iterator = _container.GetItemLinqQueryable<Pixel>()
-                        .Where(p => p.partitionKey == partitionKey)
+                        .Where(p =>
+                            p.partitionKey == (String.IsNullOrEmpty(partitionKey) ?
+                                         p.partitionKey
+                                         : partitionKey)
+                                        )
                         .ToFeedIterator();
         while (iterator.HasMoreResults)
         {
