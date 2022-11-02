@@ -1,5 +1,6 @@
 ﻿using Mosaic.Model;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
 
 namespace Mosaic.Persistence;
 
@@ -27,7 +28,35 @@ public class CosmosProvider
 
     public async Task<ItemResponse<Pixel>> PaintPixel(Pixel pixel)
     {
-        return await _container.CreateItemAsync<Pixel>(pixel, new PartitionKey(pixel.partitionKey));
+        var pixelList = await this.SelectPixel(pixel.partitionKey);
+        
+        if(pixelList.Count == 0)
+            return await _container
+                    .CreateItemAsync<Pixel>(pixel, new PartitionKey(pixel.partitionKey));
+        else
+            return await _container
+                    .UpsertItemAsync<Pixel>(pixel,new PartitionKey(pixel.partitionKey));
+    }
+
+    public async Task<List<Pixel>> SelectPixel(string partitionKey)
+    {
+        var returnList = new List<Pixel>();
+        var iterator = _container.GetItemLinqQueryable<Pixel>()
+                        .Where(p =>
+                            p.partitionKey == (String.IsNullOrEmpty(partitionKey) ?
+                                         p.partitionKey
+                                         : partitionKey)
+                                        )
+                        .ToFeedIterator();
+        while (iterator.HasMoreResults)
+        {
+            FeedResponse<Pixel> response = await iterator.ReadNextAsync();
+            foreach (var item in response)
+            {
+                returnList.Add(item);
+            }
+        }
+        return returnList;
     }
     public bool ConfigsWereRead()
     {
