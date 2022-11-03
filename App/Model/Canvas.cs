@@ -14,7 +14,14 @@ public record Canvas
         PartitionKey = id;
     }
     [JsonProperty(PropertyName = "partitionKey")]
-    public string PartitionKey { get; set; }    
+    public string PartitionKey { get; set; }  
+    [JsonProperty(PropertyName = "id")]
+    public string Id {
+        get
+        {
+            return PartitionKey;
+        }
+    }  
     public List<Pixel> Pixels {get;set;}
 
 }
