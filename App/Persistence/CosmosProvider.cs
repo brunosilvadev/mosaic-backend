@@ -6,14 +6,14 @@ namespace Mosaic.Persistence;
 
 public class CosmosProvider
 {
-    private IConfiguration _config;
+    private readonly IConfiguration _config;
     private readonly string _uri;
     private readonly string _key;
     private const string _dbId = "PixelCanvas";
     private const string _containerId = "Items";
     private readonly CosmosClient _client;    
     private readonly Database _db;
-    private Container _container;
+    private readonly Container _container;
 
     public CosmosProvider(IConfiguration config)
     {
@@ -38,11 +38,25 @@ public class CosmosProvider
                     .UpsertItemAsync(pixel,new PartitionKey(pixel.PartitionKey));
     }
 
+    public async Task PaintPixelInCanvas(Pixel pixel)
+    {
+        var canvasResult = await _container.GetItemLinqQueryable<Canvas>().ToFeedIterator().ReadNextAsync();
+        if (canvasResult != null)
+        {
+            var canvas = canvasResult.First();
+            var canvasPixel = canvas.Pixels.Where(p => p.X == pixel.X && p.Y == pixel.Y).First();
+            if (canvasPixel != null)
+            {
+                canvasPixel = pixel;
+                await _container.UpsertItemAsync(canvas, new PartitionKey(canvas.PartitionKey));
+            }
+        }        
+    }
+
     public async Task<ItemResponse<Canvas>> CreateCanvas(int size)
     {
         var canvas = Workers.Stretcher.BuildBlankCanvas(size);
-            return await _container
-                    .CreateItemAsync(canvas, new PartitionKey(canvas.PartitionKey));       
+        return await _container.CreateItemAsync(canvas, new PartitionKey(canvas.PartitionKey));       
     }
 
     public async Task<List<Pixel>> SelectPixel(string partitionKey)
@@ -64,9 +78,5 @@ public class CosmosProvider
             }
         }
         return returnList;
-    }
-    public bool ConfigsWereRead()
-    {
-        return (_uri != null && _key != null);
     }
 }
