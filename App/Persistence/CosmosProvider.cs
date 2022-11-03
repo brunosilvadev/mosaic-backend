@@ -40,9 +40,10 @@ public class CosmosProvider
 
     public async Task PaintPixelInCanvas(Pixel pixel)
     {
-        var canvas = _container.GetItemLinqQueryable<Canvas>().FirstOrDefault();
-        if (canvas != null)
+        var canvasResult = await _container.GetItemLinqQueryable<Canvas>().ToFeedIterator().ReadNextAsync();
+        if (canvasResult != null)
         {
+            var canvas = canvasResult.First();
             var canvasPixel = canvas.Pixels.Where(p => p.X == pixel.X && p.Y == pixel.Y).First();
             if (canvasPixel != null)
             {
