@@ -26,7 +26,7 @@ public class MosaicTests
         Assert.Equal(10 * 10, c.Pixels.Count);
     }
     [Fact]
-    public void tickIdHasCorrectLength()
+    public void TickIdHasCorrectLength()
     {
         var id = Clock.tickId();
         Assert.True(id.Length > 10 && id.Length < 20);
