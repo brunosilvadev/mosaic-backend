@@ -11,7 +11,7 @@ public record Pixel
         }
     }
     [JsonProperty(PropertyName = "partitionKey")]
-    public string partitionKey{
+    public string PartitionKey{
         get
         {
             string fmt = "00000000.##";

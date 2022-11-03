@@ -19,6 +19,7 @@ public class MosaicEndpoint : IEndpoint
         app.MapPost("/cosmopaint", CosmoPaint);
         app.MapGet("/select", SelectPixel);
         app.MapGet("/getAll", GetPixels);
+        app.MapGet("/stretch", CreateCanvas);
     }
     public void PaintPixel(Pixel pixel)
     {
@@ -38,6 +39,11 @@ public class MosaicEndpoint : IEndpoint
     {
         var p = new Mosaic.Persistence.CosmosProvider(_config);
         return await p.SelectPixel(String.Empty);
+    }
+    public async Task CreateCanvas(int size)
+    {
+        var p = new Mosaic.Persistence.CosmosProvider(_config);
+        await p.CreateCanvas(size);
     }
     public Canvas SeeCanvas()
     {
