@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using Mosaic.Model;
+using Mosaic.Workers;
 using Mosaic.Persistence;
 using Microsoft.Extensions.Configuration;
 
@@ -11,25 +12,24 @@ public class MosaicTests
     {
         var c = new Canvas();
         Assert.IsType<List<Pixel>>(c.Pixels);
+    }   
+    [Fact]
+    public void StretcherStretches()
+    {
+        var c = Stretcher.BuildBlankCanvas(10);
+        Assert.IsType<Canvas>(c);
     }
     [Fact]
-    public async Task CosmosConnects()
+    public void StretcherBuildsCorrectSizeCanvas()
     {
-        var inMemorySettings = new Dictionary<string, string>
-        {
-            {"EndpointUri",@"AAAAA" },
-            {"PrimaryKey",@"BBBBB"}
-        };
-        IConfiguration config = new ConfigurationBuilder().AddInMemoryCollection(inMemorySettings).Build();                    
-        var c = new CosmosProvider(config);
-
-        var response = await c.PaintPixel(new Pixel()
-        {
-            X = 5,
-            Y = 10,
-            HexColor = "000000"
-        });
-        Assert.True(c.ConfigsWereRead());
+        var c = Stretcher.BuildBlankCanvas(10);
+        Assert.Equal(10 * 10, c.Pixels.Count);
+    }
+    [Fact]
+    public void tickIdHasCorrectLength()
+    {
+        var id = Clock.tickId();
+        Assert.True(id.Length > 10 && id.Length < 20);
     }
 
 }

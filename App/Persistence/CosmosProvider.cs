@@ -28,14 +28,21 @@ public class CosmosProvider
 
     public async Task<ItemResponse<Pixel>> PaintPixel(Pixel pixel)
     {
-        var pixelList = await this.SelectPixel(pixel.partitionKey);
+        var pixelList = await SelectPixel(pixel.PartitionKey);
         
         if(pixelList.Count == 0)
             return await _container
-                    .CreateItemAsync<Pixel>(pixel, new PartitionKey(pixel.partitionKey));
+                    .CreateItemAsync(pixel, new PartitionKey(pixel.PartitionKey));
         else
             return await _container
-                    .UpsertItemAsync<Pixel>(pixel,new PartitionKey(pixel.partitionKey));
+                    .UpsertItemAsync(pixel,new PartitionKey(pixel.PartitionKey));
+    }
+
+    public async Task<ItemResponse<Canvas>> CreateCanvas(int size)
+    {
+        var canvas = Workers.Stretcher.BuildBlankCanvas(size);
+            return await _container
+                    .CreateItemAsync(canvas, new PartitionKey(canvas.PartitionKey));       
     }
 
     public async Task<List<Pixel>> SelectPixel(string partitionKey)
@@ -43,8 +50,8 @@ public class CosmosProvider
         var returnList = new List<Pixel>();
         var iterator = _container.GetItemLinqQueryable<Pixel>()
                         .Where(p =>
-                            p.partitionKey == (String.IsNullOrEmpty(partitionKey) ?
-                                         p.partitionKey
+                            p.PartitionKey == (string.IsNullOrEmpty(partitionKey) ?
+                                         p.PartitionKey
                                          : partitionKey)
                                         )
                         .ToFeedIterator();
