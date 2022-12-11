@@ -12,13 +12,10 @@ public class MosaicEndpoint : IEndpoint
         _eye = eye;
         _config = config;
     }
+    //TODO: Move logic to abstractions (eye, brush etc.)
     public void RegisterRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/see", SeeCanvas);
-        app.MapPost("/paint", PaintPixel);
-        app.MapPost("/cosmopaint", CosmoPaint);
-        app.MapGet("/select", SelectPixel);
-        app.MapGet("/getAll", GetPixels);
         app.MapGet("/stretch", CreateCanvas);
         app.MapPost("/paint-canvas", PaintPixelInCanvas);
     }
@@ -51,9 +48,10 @@ public class MosaicEndpoint : IEndpoint
         var p = new Mosaic.Persistence.CosmosProvider(_config);
         await p.PaintPixelInCanvas(pixel);
     }
-    public Canvas SeeCanvas()
+    public async Task<Canvas?> SeeCanvas()
     {
-        return _eye.SeeCanvas();
+        var p = new Mosaic.Persistence.CosmosProvider(_config);
+        return await p.SeeCanvas();
     }
 
 }
