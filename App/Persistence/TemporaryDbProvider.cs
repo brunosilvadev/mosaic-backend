@@ -14,16 +14,16 @@ public class TemporaryDbProvider : ITemporaryDbProvider
     {
         return _canvas;
     }
-    public void AddPixel(Pixel pixel)
+    public void AddPixel(Pixel newPixel)
     {
-        var existe = _canvas.Pixels.FirstOrDefault(x => (x.X == pixel.X && x.Y ==pixel.Y) );
+        var existe = _canvas.Pixels.FirstOrDefault(pixel => (pixel.X == newPixel.X && pixel.Y == newPixel.Y) );
         if (existe != null)
         {
-            existe.HexColor = pixel.HexColor;
+            existe.HexColor = newPixel.HexColor;
         }
         else
         {
-           _canvas.Pixels.Add(pixel);
+           _canvas.Pixels.Add(newPixel);
         }
        
     }
