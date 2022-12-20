@@ -13,15 +13,11 @@ public class Brush : IBrush
         _cosmos = cosmos;
     }    
     public async Task PaintPixel(Pixel pixel)
-    {
-        if(_cosmos == null)
-        {
-            throw new Exception("cosmos failed to instantiate");
-        }
-        _dbProvider.AddPixel(pixel);
+    {        
+        throw new NotImplementedException();
     }
 }
 public interface IBrush
 {
-    public Task PaintPixel(Pixel pixel);
+    public Task PaintPixel(Pixel pixel);    
 }
