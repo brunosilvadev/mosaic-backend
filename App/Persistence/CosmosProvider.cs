@@ -4,7 +4,7 @@ using Microsoft.Azure.Cosmos.Linq;
 
 namespace Mosaic.Persistence;
 
-public class CosmosProvider
+public class CosmosProvider : ICosmosProvider
 {
     private readonly IConfiguration _config;
     private readonly string _uri;
@@ -79,4 +79,10 @@ public class CosmosProvider
         }
         return returnList;
     }
+}
+
+public interface ICosmosProvider
+{
+    public Task PaintPixelInCanvas(Pixel pixel);
+    public Task<List<Pixel>> SelectPixel(string partitionKey);    
 }
