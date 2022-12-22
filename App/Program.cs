@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Cors;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
