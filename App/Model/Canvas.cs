@@ -13,15 +13,14 @@ public record Canvas
         Pixels = new List<Pixel>();
         PartitionKey = id;
     }
+    public List<Pixel> Pixels {get;set;}
     [JsonProperty(PropertyName = "partitionKey")]
-    public string PartitionKey { get; set; }  
+    public string PartitionKey { get; set; }
     [JsonProperty(PropertyName = "id")]
     public string Id {
         get
         {
             return PartitionKey;
         }
-    }  
-    public List<Pixel> Pixels {get;set;}
-
+    }
 }

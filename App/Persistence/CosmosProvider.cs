@@ -38,6 +38,7 @@ public class CosmosProvider : ICosmosProvider
                     .UpsertItemAsync(pixel,new PartitionKey(pixel.PartitionKey));
     }
 
+    ///TODO: Add a paramater to determine which canvas to paint 
     public async Task PaintPixelInCanvas(Pixel pixel)
     {
         var canvasResult = await _container.GetItemLinqQueryable<Canvas>().ToFeedIterator().ReadNextAsync();
@@ -47,7 +48,7 @@ public class CosmosProvider : ICosmosProvider
             var canvasPixel = canvas.Pixels.Where(p => p.X == pixel.X && p.Y == pixel.Y).First();
             if (canvasPixel != null)
             {
-                canvasPixel = pixel;
+                canvasPixel.HexColor = pixel.HexColor;
                 await _container.UpsertItemAsync(canvas, new PartitionKey(canvas.PartitionKey));
             }
         }        
@@ -58,7 +59,13 @@ public class CosmosProvider : ICosmosProvider
         var canvas = Workers.Stretcher.BuildBlankCanvas(size);
         return await _container.CreateItemAsync(canvas, new PartitionKey(canvas.PartitionKey));       
     }
-
+    public async Task<Canvas?> SeeCanvas()
+    {
+        var canvasResult = await _container.GetItemLinqQueryable<Canvas>()
+                            .ToFeedIterator()
+                            .ReadNextAsync();
+        return canvasResult!= null ? canvasResult.First() : null;
+    }
     public async Task<List<Pixel>> SelectPixel(string partitionKey)
     {
         var returnList = new List<Pixel>();
