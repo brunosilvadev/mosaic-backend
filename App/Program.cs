@@ -22,7 +22,7 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
 });
 app.UseCors(options =>
-    options.WithOrigins("http://localhost:4200", "https://gentle-plant-06a96d810.2.azurestaticapps.net/")
+    options.WithOrigins("http://localhost:4200", "https://gentle-plant-06a96d810.2.azurestaticapps.net")
     .AllowAnyMethod()
     .AllowAnyHeader()
 );
