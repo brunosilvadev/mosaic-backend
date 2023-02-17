@@ -86,10 +86,16 @@ public class CosmosProvider : ICosmosProvider
         }
         return returnList;
     }
+
+    public async Task<bool> CheckAuthor(byte[] ipAddress)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public interface ICosmosProvider
 {
     public Task PaintPixelInCanvas(Pixel pixel);
-    public Task<List<Pixel>> SelectPixel(string partitionKey);    
+    public Task<List<Pixel>> SelectPixel(string partitionKey); 
+    public Task<bool> CheckAuthor(byte[] ipAddress);   
 }
