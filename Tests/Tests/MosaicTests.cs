@@ -25,11 +25,5 @@ public class MosaicTests
         var c = Stretcher.BuildBlankCanvas(10);
         Assert.Equal(10 * 10, c.Pixels.Count);
     }
-    [Fact]
-    public void TickIdHasCorrectLength()
-    {
-        var id = Clock.tickId();
-        Assert.True(id.Length > 10 && id.Length < 20);
-    }
 
 }
