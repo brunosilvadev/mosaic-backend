@@ -6,7 +6,7 @@ public static class Stretcher
 {
     public static Canvas BuildBlankCanvas(int size)
     {
-        var c = new Canvas() { PartitionKey = Clock.tickId() };
+        var c = new Canvas() { PartitionKey = Clock.currentTick().ToString() };
 
         for(int i = 1; i <= size; i++)
         {
