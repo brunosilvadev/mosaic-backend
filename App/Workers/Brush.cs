@@ -12,7 +12,7 @@ public class Brush : IBrush
         _dbProvider = provider;
         _cosmos = cosmos;
     }    
-    public async Task PaintPixel(Pixel pixel)
+    public Task PaintPixel(Pixel pixel)
     {        
         throw new NotImplementedException();
     }

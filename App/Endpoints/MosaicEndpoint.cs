@@ -1,16 +1,17 @@
 using Mosaic.Model;
+using Mosaic.Persistence;
 using Mosaic.Workers;
 
 public class MosaicEndpoint : IEndpoint
 {
     private IBrush _brush;
     private IEye _eye;
-    private IConfiguration _config;
-    public MosaicEndpoint(IBrush brush, IEye eye, IConfiguration config)
+    private ICosmosProvider _provider;
+    public MosaicEndpoint(IBrush brush, IEye eye, ICosmosProvider provider)
     {
         _brush = brush;
         _eye = eye;
-        _config = config;
+        _provider = provider;
     }
     //TODO: Move logic to abstractions (eye, brush etc.)
     public void RegisterRoutes(IEndpointRouteBuilder app)
@@ -25,33 +26,27 @@ public class MosaicEndpoint : IEndpoint
     }
     public async Task CosmoPaint(Pixel pixel)
     {
-        var p = new Mosaic.Persistence.CosmosProvider(_config);
-        await p.PaintPixel(pixel);
+        await _provider.PaintPixel(pixel);
     }
     public async Task<List<Pixel>> SelectPixel(string partitionKey)
     {
-        var p = new Mosaic.Persistence.CosmosProvider(_config);
-        return await p.SelectPixel(partitionKey);
+        return await _provider.SelectPixel(partitionKey);
     }
     public async Task<List<Pixel>> GetPixels()
     {
-        var p = new Mosaic.Persistence.CosmosProvider(_config);
-        return await p.SelectPixel(String.Empty);
+        return await _provider.SelectPixel(String.Empty);
     }
     public async Task CreateCanvas(int size)
     {
-        var p = new Mosaic.Persistence.CosmosProvider(_config);
-        await p.CreateCanvas(size);
+        await _provider.CreateCanvas(size);
     }
     public async Task PaintPixelInCanvas(Pixel pixel)
     {
-        var p = new Mosaic.Persistence.CosmosProvider(_config);
-        await p.PaintPixelInCanvas(pixel);
+        await _provider.PaintPixelInCanvas(pixel);
     }
     public async Task<Canvas?> SeeCanvas()
     {
-        var p = new Mosaic.Persistence.CosmosProvider(_config);
-        return await p.SeeCanvas();
+        return await _provider.SeeCanvas();
     }
 
 }

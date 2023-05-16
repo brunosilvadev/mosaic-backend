@@ -2,11 +2,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
+builder.Configuration.AddCommandLine(args);
+
+
+var useMock = builder.Configuration.GetValue<bool>("UseMock");
+if (useMock)
+{
+    builder.Services.AddTransient<Mosaic.Persistence.ICosmosProvider, Mosaic.Persistence.OfflineCosmos>();
+}
+else
+{
+    builder.Services.AddTransient<Mosaic.Persistence.ICosmosProvider, Mosaic.Persistence.CosmosProvider>();
+}
+
 builder.Services.AddTransient<IEndpoint, MosaicEndpoint>();
 builder.Services.AddSingleton<Mosaic.Persistence.ITemporaryDbProvider, Mosaic.Persistence.TemporaryDbProvider>();
 builder.Services.AddSingleton<Mosaic.Workers.IBrush, Mosaic.Workers.Brush>();
 builder.Services.AddSingleton<Mosaic.Workers.IEye, Mosaic.Workers.Eye>();
-builder.Services.AddTransient<Mosaic.Persistence.ICosmosProvider, Mosaic.Persistence.CosmosProvider>();
 
 
 var app = builder.Build();
