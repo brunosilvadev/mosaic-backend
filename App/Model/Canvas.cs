@@ -1,3 +1,7 @@
 namespace Mosaic.Model;
 
-public record Canvas (int CanvasId, ICollection<Pixel> Pixels) {}
+public record Canvas ()
+{
+    public int CanvasId { get; set; }
+    public ICollection<Pixel> Pixels { get; set; } = [];
+}

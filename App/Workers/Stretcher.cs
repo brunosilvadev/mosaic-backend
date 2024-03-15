@@ -6,7 +6,7 @@ public static class Stretcher
 {
     public static Canvas BuildBlankCanvas(int size)
     {
-        var c = new Canvas(0, []);
+        var c = new Canvas();
 
         var pixelId = 1;
 
@@ -14,8 +14,11 @@ public static class Stretcher
         {
             for(int j = 1; j <= size; j++)
             {
-                c.Pixels.Add(new Pixel(pixelId, i, j)
+                c.Pixels.Add(new Pixel()
                 {
+                    PixelId = pixelId,
+                    X = i,
+                    Y = j,
                     HexColor = "FFFFFF"
                 });
             }            

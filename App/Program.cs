@@ -17,12 +17,12 @@ builder.Services.AddDbContext<CanvasDbContext>(options =>
 
 builder.Services.AddScoped<IBrush, Brush>();
 builder.Services.AddScoped<IEye, Eye>();
-builder.Services.AddTransient<IEndpoint, MosaicEndpoint>();
+builder.Services.AddSingleton<IEndpoint, MosaicEndpoint>();
 
 var app = builder.Build();
 
-var endpoints = app.Services.GetServices<IEndpoint>().ToList();
-endpoints.ForEach(e => e.RegisterRoutes(app));
+var endpoint = app.Services.GetService<IEndpoint>();
+    endpoint?.RegisterRoutes(app);
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
