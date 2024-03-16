@@ -18,7 +18,7 @@ public class MosaicEndpoint() : IEndpoint
         ///TODO: add more canvases
        await brush.PaintPixel(pixel, 1);
 
-    public async Task<List<Pixel>> SeeCanvas(IEye eye) =>
+    public async Task<Canvas> SeeCanvas(IEye eye) =>
         ///TODO: add more canvases
         await eye.SeeCanvas(1);
 
