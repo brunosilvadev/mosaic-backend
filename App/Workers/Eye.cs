@@ -6,13 +6,13 @@ namespace Mosaic.Workers;
 
 public class Eye(CanvasDbContext context) : IEye
 {
-    public async Task<Canvas?> SeeCanvas(int canvasId) =>
-        await context.Canvas
+    public async Task<List<Pixel>> SeeCanvas(int canvasId) =>
+        await context.Pixels
             .Where(c => c.CanvasId == canvasId)
-            .FirstOrDefaultAsync();
+            .ToListAsync();
 
 }
 public interface IEye
 {
-    public Task<Canvas?> SeeCanvas(int canvasId);
+    public Task<List<Pixel>> SeeCanvas(int canvasId);
 }

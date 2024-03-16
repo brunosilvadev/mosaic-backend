@@ -19,7 +19,8 @@ public static class Stretcher
                     PixelId = pixelId,
                     X = i,
                     Y = j,
-                    HexColor = "FFFFFF"
+                    HexColor = "FFFFFF",
+                    CanvasId = 1 ///TODO: make it flexible, multiple Canvas
                 });
                 pixelId++;
             }            

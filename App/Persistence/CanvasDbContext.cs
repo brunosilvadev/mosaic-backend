@@ -15,10 +15,10 @@ public class CanvasDbContext : DbContext
 	{		
 		//modelBuilder.Entity<Reminder>().HasKey(r => r.ReminderId);
 		
-		modelBuilder.Entity<Pixel>()
-			.HasOne(c => c.Canvas)
-			.WithMany()
-			.HasForeignKey(c => c.CanvasId);
+		// modelBuilder.Entity<Pixel>()
+		// 	.HasOne(c => c.Canvas)
+		// 	.WithMany()
+		// 	.HasForeignKey(c => c.CanvasId);
 
 		base.OnModelCreating(modelBuilder);
 	}
