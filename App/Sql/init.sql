@@ -1,3 +1,6 @@
+--docker run --name canvasdb -e MYSQL_ROOT_PASSWORD='Vo~qU!5bnm96TEA.YN?g' -p 3306:3306 -d mysql:latest
+
+
 CREATE DATABASE canvas
 
 --
