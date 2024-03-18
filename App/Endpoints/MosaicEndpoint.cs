@@ -9,7 +9,7 @@ public class MosaicEndpoint() : IEndpoint
     //TODO: Move logic to abstractions (eye, brush etc.)
     public void RegisterRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/paint", PaintPixel);
+        app.MapPost("/paint-canvas", PaintPixel);
         app.MapGet("/see", SeeCanvas);
         app.MapGet("/stretch", Stretch);
         app.MapGet("/destroy", Destroy);

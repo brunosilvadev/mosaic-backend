@@ -7,11 +7,11 @@ CREATE TABLE Canvas (
     CanvasId INT AUTO_INCREMENT PRIMARY KEY
 );
 
-CREATE TABLE Pixel (
+CREATE TABLE Pixels (
     PixelId INT AUTO_INCREMENT PRIMARY KEY,
     X INT NOT NULL,
     Y INT NOT NULL,
     HexColor VARCHAR(7) NOT NULL,
-    CanvasId INT NOT NULL,
-    CONSTRAINT fk_Canvas FOREIGN KEY (CanvasId) REFERENCES Canvas(CanvasId)
+    CanvasId INT NOT NULL
 );
+
