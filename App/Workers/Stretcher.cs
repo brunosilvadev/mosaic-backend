@@ -4,15 +4,25 @@ namespace Mosaic.Workers;
 
 public static class Stretcher
 {
-    public static Canvas BuildBlankCanvas(int size)
+    public static List<Pixel> BuildBlankCanvas(int size)
     {
-        var c = new Canvas() { PartitionKey = Clock.currentTick().ToString() };
+        var c = new List<Pixel>();
+
+        var pixelId = 1;
 
         for(int i = 1; i <= size; i++)
         {
             for(int j = 1; j <= size; j++)
             {
-                c.Pixels.Add(new Pixel() { X = i, Y = j, HexColor = "FFFFFF" });
+                c.Add(new Pixel()
+                {
+                    PixelId = pixelId,
+                    X = i,
+                    Y = j,
+                    HexColor = "FFFFFF",
+                    CanvasId = 1 ///TODO: make it flexible, multiple Canvas
+                });
+                pixelId++;
             }            
         }
 

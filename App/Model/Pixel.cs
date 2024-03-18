@@ -1,24 +1,21 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Mosaic.Model;
-public record Pixel
+public record Pixel ()
 {
-    [JsonProperty(PropertyName = "id")]
-    public string Id {
-        get
-        {
-            return X.ToString() + ";" + Y.ToString();
-        }
-    }
-    [JsonProperty(PropertyName = "partitionKey")]
-    public string PartitionKey{
-        get
-        {
-            string fmt = "00000000.##";
-            return X.ToString(fmt) + Y.ToString(fmt);
-        }
-    }
+    [JsonIgnore]
+    public int PixelId { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
-    public string HexColor { get; set; } = default!;
+    public string? HexColor { get; set; }
+    
+    [JsonIgnore]
+    public virtual int CanvasId { get; set; }
+    public string Id
+    {
+        get
+        {
+            return $"{X};{Y}";
+        }
+    }
 }

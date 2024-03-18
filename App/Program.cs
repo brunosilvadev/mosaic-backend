@@ -1,31 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using Mosaic.API;
+using Mosaic.Persistence;
+using Mosaic.Workers;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
 builder.Configuration.AddCommandLine(args);
 
+builder.Services.AddDbContext<CanvasDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(8, 0, 33)) 
+    ));
 
-var useMock = builder.Configuration.GetValue<bool>("UseMock");
-if (useMock)
-{
-    builder.Services.AddTransient<Mosaic.Persistence.ICosmosProvider, Mosaic.Persistence.OfflineCosmos>();
-}
-else
-{
-    builder.Services.AddTransient<Mosaic.Persistence.ICosmosProvider, Mosaic.Persistence.CosmosProvider>();
-}
 
-builder.Services.AddTransient<IEndpoint, MosaicEndpoint>();
-builder.Services.AddSingleton<Mosaic.Persistence.ITemporaryDbProvider, Mosaic.Persistence.TemporaryDbProvider>();
-builder.Services.AddSingleton<Mosaic.Workers.IBrush, Mosaic.Workers.Brush>();
-builder.Services.AddSingleton<Mosaic.Workers.IEye, Mosaic.Workers.Eye>();
-
+builder.Services.AddScoped<IBrush, Brush>();
+builder.Services.AddScoped<IEye, Eye>();
+builder.Services.AddSingleton<IEndpoint, MosaicEndpoint>();
 
 var app = builder.Build();
 
-var endpoints = app.Services.GetServices<IEndpoint>().ToList();
-
-endpoints.ForEach(e => e.RegisterRoutes(app));
+var endpoint = app.Services.GetService<IEndpoint>();
+    endpoint?.RegisterRoutes(app);
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>

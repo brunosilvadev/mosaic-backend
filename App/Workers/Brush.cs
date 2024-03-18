@@ -3,21 +3,24 @@ using Mosaic.Persistence;
 
 namespace Mosaic.Workers;
 
-public class Brush : IBrush
+public class Brush(CanvasDbContext context) : IBrush
 {
-    private ITemporaryDbProvider _dbProvider;
-    private ICosmosProvider _cosmos;
-    public Brush(ITemporaryDbProvider provider, ICosmosProvider cosmos)
+    public async Task<bool> PaintPixel(Pixel pixel, int canvasId)
     {
-        _dbProvider = provider;
-        _cosmos = cosmos;
-    }    
-    public Task PaintPixel(Pixel pixel)
-    {        
-        throw new NotImplementedException();
+        var pixelToUpdate = context.Pixels
+            .Where(p  => p.CanvasId  == canvasId && p.X == pixel.X && p.Y == pixel.Y )
+            .FirstOrDefault();
+
+        if(pixelToUpdate is null)
+            return false;
+
+        pixelToUpdate.HexColor = pixel.HexColor;
+        await context.SaveChangesAsync();
+
+        return true;        
     }
 }
 public interface IBrush
 {
-    public Task PaintPixel(Pixel pixel);    
+    public Task<bool> PaintPixel(Pixel pixel, int canvasId);    
 }

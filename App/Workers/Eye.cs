@@ -1,21 +1,22 @@
+using Microsoft.EntityFrameworkCore;
 using Mosaic.Model;
 using Mosaic.Persistence;
 
 namespace Mosaic.Workers;
 
-public class Eye : IEye
+public class Eye(CanvasDbContext context) : IEye
 {
-    private ITemporaryDbProvider _provider;
-    public Eye(ITemporaryDbProvider provider)
-    {
-        _provider  = provider;
-    }
-    public Canvas SeeCanvas()
-    {
-        return _provider.GetCanvas();
-    }
+    public async Task<Canvas> SeeCanvas(int canvasId) =>
+        new Canvas()
+        {
+            CanvasId = 1,
+            Pixels = await context.Pixels
+            .Where(c => c.CanvasId == canvasId)
+            .ToListAsync()
+        };
+
 }
 public interface IEye
 {
-    public Canvas SeeCanvas();
+    public Task<Canvas> SeeCanvas(int canvasId);
 }
