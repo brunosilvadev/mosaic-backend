@@ -21,6 +21,12 @@ jobs:
         with:
           files: 'App/appsettings.json'
           replacements: 'conecsaum=${{ secrets.CONN_STRING }}'
+
+      - name: Replace Action2
+        uses: datamonsters/replace-action@v2
+        with:
+          files: 'App/appsettings.json'
+          replacements: 'nome=${{ secrets.DB_DATA }}'
               
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
